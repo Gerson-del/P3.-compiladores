@@ -1,40 +1,42 @@
 function procesar() {
   const input = document.getElementById("inputProducciones").value.trim();
-  producciones = {};
+  ObjetoProducciones = {};
   primero = {};
   siguiente = {};
   tabla = {};
 
-  // Tomamos las producciones de textArea y las leemos
+  // Tomamos las ObjetoProducciones de textArea y las leemos
   const lineas = input.split("\n");
   lineas.forEach((linea) => {
     const [izq, der] = linea.split("->").map((x) => x.trim());
-    producciones[izq] = der.split("|").map((prod) => prod.trim().split(" "));
+    ObjetoProducciones[izq] = der
+      .split("|")
+      .map((prod) => prod.trim().split(" "));
   });
 
   // los diccionarios primero y siguiente los inicializamos vacios
-  for (let nt in producciones) {
+  for (let nt in ObjetoProducciones) {
     primero[nt] = [];
     siguiente[nt] = [];
   }
 
   // Aqui se calcula el primero usando la funcion CalcularPrimero()
-  for (let nt in producciones) {
+  for (let nt in ObjetoProducciones) {
     calcularPrimero(nt);
   }
 
   // se añade $ al conjunto siguiente del primer simbolo
-  const inicial = Object.keys(producciones)[0];
+  const inicial = Object.keys(ObjetoProducciones)[0];
   siguiente[inicial].push("$");
 
   let cambio = true;
   while (cambio) {
     cambio = false;
-    for (let nt in producciones) {
-      producciones[nt].forEach((prod) => {
+    for (let nt in ObjetoProducciones) {
+      ObjetoProducciones[nt].forEach((prod) => {
         for (let i = 0; i < prod.length; i++) {
           let simbolo = prod[i];
-          if (producciones[simbolo]) {
+          if (ObjetoProducciones[simbolo]) {
             let siguientes = [];
 
             if (i + 1 < prod.length) {
@@ -66,9 +68,9 @@ function procesar() {
   }
 
   // Esto construye la tabla predictiva
-  for (let nt in producciones) {
+  for (let nt in ObjetoProducciones) {
     tabla[nt] = {};
-    producciones[nt].forEach((prod) => {
+    ObjetoProducciones[nt].forEach((prod) => {
       let primeros = obtenerPrimeroDe(prod);
       primeros.forEach((t) => {
         if (t !== "ε") tabla[nt][t] = `${nt}->${prod.join(" ")}`;
@@ -87,7 +89,7 @@ function procesar() {
 }
 
 function calcularPrimero(nt) {
-  producciones[nt].forEach((prod) => {
+  ObjetoProducciones[nt].forEach((prod) => {
     let i = 0;
     let contieneEpsilon = true;
     while (i < prod.length && contieneEpsilon) {
@@ -140,7 +142,7 @@ function obtenerPrimeroDe(prod) {
 }
 
 function esTerminal(s) {
-  return !producciones[s] && s !== "ε";
+  return !ObjetoProducciones[s] && s !== "ε";
 }
 
 function formatear(obj) {
