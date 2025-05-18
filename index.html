@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Parcial 2</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main id="container">
+      <h1>Parcial 2 - Compiladores</h1>
+      <label for="inputProducciones"
+        >Ingresa las producciones (usa → como `->` y separa con | si hay varias
+        opciones), (separa por espacios):</label
+      >
+      <br /><textarea
+        id="inputProducciones"
+        placeholder="Separa por espacios 
+        Ej:&#10;S -> A B&#10;A -> a A | ε&#10;B -> b"
+      ></textarea
+      ><br />
+
+      <button onclick="procesar()">Calcular</button>
+
+      <h3>Primero:</h3>
+      <pre id="primero"></pre>
+
+      <h3>Siguiente:</h3>
+      <pre id="siguiente"></pre>
+
+      <h3>Tabla predictiva</h3>
+
+      <table id="tabla">
+        <thead></thead>
+        <tbody></tbody>
+      </table>
+    </main>
+
+    <footer>
+      Creado por Gerson Neftaly Juarez Lopez y Brayan Velazco Martinez
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
