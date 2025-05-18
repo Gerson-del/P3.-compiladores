@@ -5,29 +5,28 @@ function procesar() {
   siguiente = {};
   tabla = {};
 
-  // Leer producciones desde el textarea
+  // Tomamos las producciones de textArea y las leemos
   const lineas = input.split("\n");
   lineas.forEach((linea) => {
     const [izq, der] = linea.split("->").map((x) => x.trim());
     producciones[izq] = der.split("|").map((prod) => prod.trim().split(" "));
   });
 
-  // Inicializar PRIMERO y SIGUIENTE vacíos
+  // los diccionarios primero y siguiente los inicializamos vacios
   for (let nt in producciones) {
     primero[nt] = [];
     siguiente[nt] = [];
   }
 
-  // Calcular PRIMERO
+  // Aqui se calcula el primero usando la funcion CalcularPrimero()
   for (let nt in producciones) {
     calcularPrimero(nt);
   }
 
-  // Agregar $ al conjunto SIGUIENTE del símbolo inicial
+  // se añade $ al conjunto siguiente del primer simbolo
   const inicial = Object.keys(producciones)[0];
   siguiente[inicial].push("$");
 
-  // Calcular SIGUIENTE con propagación
   let cambio = true;
   while (cambio) {
     cambio = false;
@@ -36,7 +35,6 @@ function procesar() {
         for (let i = 0; i < prod.length; i++) {
           let simbolo = prod[i];
           if (producciones[simbolo]) {
-            // Es no terminal
             let siguientes = [];
 
             if (i + 1 < prod.length) {
@@ -67,7 +65,7 @@ function procesar() {
     }
   }
 
-  // Construir tabla predictiva
+  // Esto construye la tabla predictiva
   for (let nt in producciones) {
     tabla[nt] = {};
     producciones[nt].forEach((prod) => {
@@ -83,7 +81,6 @@ function procesar() {
     });
   }
 
-  // Mostrar resultados
   document.getElementById("primero").innerText = formatear(primero);
   document.getElementById("siguiente").innerText = formatear(siguiente);
   mostrarTabla();
